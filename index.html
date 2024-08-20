@@ -78,35 +78,32 @@
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const endDate = new Date('2024-08-05');
             let currentDate = new Date(today);
-
+    
             linkContainer.innerHTML = '';
-
+    
+            const isBeforeCutoff = now.getHours() < 16;
+            if (isBeforeCutoff) {
+                currentDate.setDate(currentDate.getDate() - 1);
+            }
+    
             while (currentDate >= endDate) {
-                const isLatest = currentDate.getTime() === today.getTime();
-                const useYesterday = isLatest && now.getHours() < 16;
+                const isLatest = currentDate.getTime() === (isBeforeCutoff ? today.getTime() - 86400000 : today.getTime());
                 
-                if (useYesterday) {
-                    currentDate.setDate(currentDate.getDate() - 1);
-                }
-
                 const dateString = currentDate.toISOString().split('T')[0];
                 const fileName = `PH-daily-${dateString}.html`;
                 const fileLink = `data/${fileName}`;
-
+    
                 const linkElement = document.createElement('a');
                 linkElement.href = fileLink;
                 linkElement.textContent = dateString;
                 linkElement.target = '_blank';
-
+    
                 const linkContainer = document.createElement('div');
                 linkContainer.className = `markdown-link ${isLatest ? 'latest' : ''}`;
                 linkContainer.appendChild(linkElement);
-
+    
                 document.getElementById('markdown-links').appendChild(linkContainer);
-
-                if (useYesterday) {
-                    currentDate.setDate(currentDate.getDate() + 1);
-                }
+    
                 currentDate.setDate(currentDate.getDate() - 1);
             }
         }
@@ -121,10 +118,5 @@
 
     <p>这个页面显示了从最新日期到2024年8月5日的所有每日Product Hunt的Top30。最新的链接（带有红色边框）会根据当前时间自动更新。每天凌晨4点后，最新链接会更新到当天的文件。</p>
     <p>通过定期浏览这些创新产品，我们可以保持对市场趋势的敏锐度，激发新的想法，并不断改进我们自己的AI产品。让我们一起在这个快速发展的领域中保持领先！</p>
-
-    <div class="link-container">
-        <p>点击下面的链接查看今日的 Product Hunt 热门产品榜单源链接：</p>
-        <a href="https://www.producthunt.com/topics/popular" target="_blank">Product Hunt 热门榜单</a>
-    </div>
 </body>
 </html>

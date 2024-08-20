@@ -116,6 +116,14 @@
 
         // 每小时更新一次链接
         setInterval(generateMarkdownLinks, 3600000);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var link = document.querySelector('h1 a');
+            if (link) {
+                link.textContent = '回到列表';
+            }
+        });
+            
     </script>
 
     <p>这个页面显示了从最新日期到2024年8月5日的所有每日Product Hunt的Top30。最新的链接（带有红色边框）会根据当前时间自动更新。每天凌晨4点后，最新链接会更新到当天的文件。</p>

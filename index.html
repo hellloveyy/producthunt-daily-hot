@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Hunt 每日热门榜单中文版 - AI创新洞察</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #ff6154;
+        }
+        .link-container, .insight-container {
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .insight-container {
+            border-left: 5px solid #ff6154;
+        }
+        a {
+            color: #1e88e5;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .markdown-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .markdown-link {
+            background-color: #e9e9e9;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .latest {
+            border: 2px solid #ff6154;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Hunt 每日热门榜单中文版 - AI创新洞察</h1>
+    
+    <div class="insight-container">
+        <h2>为什么关注Product Hunt对AI从业者至关重要</h2>
+        <p>作为AI领域的产品经理和创新者，我们深知站在技术前沿的重要性。Product Hunt不仅是一个产品发布平台，更是一个创新思维的温床。通过每日关注这里的热门产品：</p>
+        <ul>
+            <li>洞察最新的AI应用趋势，了解技术如何解决实际问题</li>
+            <li>发现跨界融合的创新点，激发我们自身的产品创意</li>
+            <li>观察用户对不同AI产品的反应，优化我们的产品设计理念</li>
+            <li>识别市场空白和机会，引导我们的产品战略方向</li>
+            <li>建立广泛的行业视野，不仅局限于AI，也关注AI如何赋能其他领域</li>
+        </ul>
+        <p>记住，每一个成功的AI产品背后，都蕴含着对用户需求的深刻理解和技术创新的完美结合。</p>
+    </div>
+    
+    <h2>历史每日Top30</h2>
+    <div class="link-container">
+        <div class="markdown-links" id="markdown-links">
+            <!-- 动态生成的链接将在这里显示 -->
+        </div>
+    </div>
+
+    <script>
+        function generateMarkdownLinks() {
+            const linkContainer = document.getElementById('markdown-links');
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const endDate = new Date('2024-08-05');
+            let currentDate = new Date(today);
+
+            linkContainer.innerHTML = '';
+
+            while (currentDate >= endDate) {
+                const isLatest = currentDate.getTime() === today.getTime();
+                const useYesterday = isLatest && now.getHours() < 16;
+                
+                if (useYesterday) {
+                    currentDate.setDate(currentDate.getDate() - 1);
+                }
+
+                const dateString = currentDate.toISOString().split('T')[0];
+                const fileName = `PH-daily-${dateString}.md`;
+                const fileLink = `data/${fileName}`;
+
+                const linkElement = document.createElement('a');
+                linkElement.href = fileLink;
+                linkElement.textContent = dateString;
+                linkElement.target = '_blank';
+
+                const linkContainer = document.createElement('div');
+                linkContainer.className = `markdown-link ${isLatest ? 'latest' : ''}`;
+                linkContainer.appendChild(linkElement);
+
+                document.getElementById('markdown-links').appendChild(linkContainer);
+
+                if (useYesterday) {
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+                currentDate.setDate(currentDate.getDate() - 1);
+            }
+        }
+
+        // 页面加载时生成链接
+        generateMarkdownLinks();
+
+        // 每小时更新一次链接
+        setInterval(generateMarkdownLinks, 3600000);
+    </script>
+
+    <p>这个页面显示了从最新日期到2024年8月5日的所有每日Product Hunt的Top30。最新的链接（带有红色边框）会根据当前时间自动更新。每天凌晨4点后，最新链接会更新到当天的文件。</p>
+    <p>通过定期浏览这些创新产品，我们可以保持对市场趋势的敏锐度，激发新的想法，并不断改进我们自己的AI产品。让我们一起在这个快速发展的领域中保持领先！</p>
+
+    <div class="link-container">
+        <p>点击下面的链接查看今日的 Product Hunt 热门产品榜单源链接：</p>
+        <a href="https://www.producthunt.com/topics/popular" target="_blank">Product Hunt 热门榜单</a>
+    </div>
+</body>
+</html>
